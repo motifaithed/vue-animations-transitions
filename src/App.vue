@@ -4,7 +4,7 @@
     <button @click="beginAnimation">Animate</button>
   </div>
   <div class="container">
-    <transition>
+    <transition name="para">
       <p v-if="showHideFlag">Sometimes show this..Sometimes not..</p>
     </transition>
     <button @click="showHide">show/hide</button>
@@ -90,7 +90,7 @@ button:active {
   opacity: 0;
   transform: translateY(-50px);
 } */
-.v-enter-active{
+.para-enter-active{
   /* transition: all 0.3s ease-out; */
   animation: slide-fade 0.3s ease-out;
 }
@@ -103,7 +103,7 @@ button:active {
   opacity: 1;
   transform: translateY(0px);
 } */
-.v-leave-active{
+.para-leave-active{
   /* transition: all 0.3s ease-out; */
   animation: slide-fade 0.3s ease-out;
 }
