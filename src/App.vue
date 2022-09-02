@@ -3,6 +3,12 @@
     <div class="block" :class="{animate: animateFlag}"></div>
     <button @click="beginAnimation">Animate</button>
   </div>
+  <div class="container">
+    <transition>
+      <p v-if="showHideFlag">Sometimes show this..Sometimes not..</p>
+    </transition>
+    <button @click="showHide">show/hide</button>
+  </div>
   <base-modal @close="hideDialog" v-if="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
@@ -17,7 +23,8 @@ export default {
   data() {
     return { 
       dialogIsVisible: false,
-      animateFlag: false
+      animateFlag: false,
+      showHideFlag: false
     };
   },
   methods: {
@@ -29,6 +36,9 @@ export default {
     },
     beginAnimation(){
       this.animateFlag = true
+    },
+    showHide(){
+      this.showHideFlag = !this.showHideFlag;
     }
   },
 };
