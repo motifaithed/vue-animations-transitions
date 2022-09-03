@@ -9,6 +9,12 @@
     </transition>
     <button @click="showHide">show/hide</button>
   </div>
+  <div class="container">
+    <transition name="show-user" mode="out-in">
+      <button @click="showUsers" v-if="!showUserFlag">Show Users</button>
+      <button @click="hideUsers" v-else>Hide Users</button>
+    </transition>
+  </div>
   <base-modal @close="hideDialog" :open="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
@@ -24,7 +30,8 @@ export default {
     return { 
       dialogIsVisible: false,
       animateFlag: false,
-      showHideFlag: false
+      showHideFlag: false,
+      showUserFlag: true
     };
   },
   methods: {
@@ -39,6 +46,12 @@ export default {
     },
     showHide(){
       this.showHideFlag = !this.showHideFlag;
+    },
+    showUsers(){
+      this.showUserFlag = true;
+    },
+    hideUsers(){
+      this.showUserFlag = false;
     }
   },
 };
@@ -116,6 +129,17 @@ button:active {
   animation: slide-fade 0.3s ease-out forwards;
 }
 
+.show-user-enter-from,
+.show-user-leave-to{
+  opacity: 0
+}
+.show-user-enter-active{
+  transition: opacity 1s ease-out;
+}
+.show-user-enter-to,
+.show-user-leave-from{
+  opacity: 1
+}
 @keyframes slide-fade{
   0%{
     transform: translateX(0px) scale(1);
