@@ -51,10 +51,14 @@ li{
 }
 .users-list-leave-active{
     transition: all 1s ease-out;
+    position: absolute;
 }
 
 .users-list-leave-to{
     opacity: 0;
     transform: translateX(30px);
+}
+.users-list-move{
+    transition: transform 0.8s ease;
 }
 </style>
