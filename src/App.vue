@@ -1,10 +1,18 @@
 <template>
   <div class="container">
-    <div class="block" :class="{animate: animateFlag}"></div>
+    <div class="block" :class="{ animate: animateFlag }"></div>
     <button @click="beginAnimation">Animate</button>
   </div>
   <div class="container">
-    <transition name="para">
+    <transition
+      name="para"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @after-leave="afterLeave"
+    >
       <p v-if="showHideFlag">Sometimes show this..Sometimes not..</p>
     </transition>
     <button @click="showHide">show/hide</button>
@@ -22,16 +30,16 @@
   <div class="container">
     <button @click="showDialog">Show Dialog</button>
   </div>
-</template>  
+</template>
 
 <script>
 export default {
   data() {
-    return { 
+    return {
       dialogIsVisible: false,
       animateFlag: false,
       showHideFlag: false,
-      showUserFlag: true
+      showUserFlag: true,
     };
   },
   methods: {
@@ -41,17 +49,41 @@ export default {
     hideDialog() {
       this.dialogIsVisible = false;
     },
-    beginAnimation(){
-      this.animateFlag = true
+    beginAnimation() {
+      this.animateFlag = true;
     },
-    showHide(){
+    showHide() {
       this.showHideFlag = !this.showHideFlag;
     },
-    showUsers(){
+    showUsers() {
       this.showUserFlag = true;
     },
-    hideUsers(){
+    hideUsers() {
       this.showUserFlag = false;
+    },
+    beforeEnter(el) {
+      console.log('before enter');
+      console.log(el);
+    },
+    enter(el) {
+      console.log('enter');
+      console.log(el);
+    },
+    afterEnter(el) {
+      console.log('after enter');
+      console.log(el);
+    },
+    beforeLeave(el) {
+      console.log('before leave');
+      console.log(el);
+    },
+    leave(el){
+      console.log('leave');
+      console.log(el);
+    }, 
+    afterLeave(el) {
+      console.log('after leave');
+      console.log(el);
     }
   },
 };
@@ -103,7 +135,7 @@ button:active {
   opacity: 0;
   transform: translateY(-50px);
 } */
-.para-enter-active{
+.para-enter-active {
   /* transition: all 0.3s ease-out; */
   animation: slide-fade 0.3s ease-out;
 }
@@ -116,7 +148,7 @@ button:active {
   opacity: 1;
   transform: translateY(0px);
 } */
-.para-leave-active{
+.para-leave-active {
   /* transition: all 0.3s ease-out; */
   animation: slide-fade 0.3s ease-out;
 }
@@ -124,30 +156,30 @@ button:active {
   opacity: 0;
   transform: translateY(-50px);
 } */
-.animate{
+.animate {
   /* transform: translateX(-100px); */
   animation: slide-fade 0.3s ease-out forwards;
 }
 
 .show-user-enter-from,
-.show-user-leave-to{
-  opacity: 0
+.show-user-leave-to {
+  opacity: 0;
 }
-.show-user-enter-active{
+.show-user-enter-active {
   transition: opacity 1s ease-out;
 }
 .show-user-enter-to,
-.show-user-leave-from{
-  opacity: 1
+.show-user-leave-from {
+  opacity: 1;
 }
-@keyframes slide-fade{
-  0%{
+@keyframes slide-fade {
+  0% {
     transform: translateX(0px) scale(1);
   }
-  70%{
+  70% {
     transform: translateX(-120px) scale(1.2);
   }
-  100%{
+  100% {
     transform: translateX(-150px) scale(1);
   }
 }
