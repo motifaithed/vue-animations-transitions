@@ -12,6 +12,8 @@
       @before-leave="beforeLeave"
       @leave="leave"
       @after-leave="afterLeave"
+      @enter-cancelled="enterCancelled"
+      @leave-cancelled="leaveCancelled"
     >
       <p v-if="showHideFlag">Sometimes show this..Sometimes not..</p>
     </transition>
@@ -40,6 +42,8 @@ export default {
       animateFlag: false,
       showHideFlag: false,
       showUserFlag: true,
+      enterInterval: null,
+      leaveInterval: null
     };
   },
   methods: {
@@ -63,11 +67,20 @@ export default {
     },
     beforeEnter(el) {
       console.log('before enter');
-      console.log(el);
+      el.style.opacity = 0;
     },
-    enter(el) {
+    enter(el, done) {
       console.log('enter');
-      console.log(el);
+      
+      let round = 1;
+       this.enterInterval = setInterval(()=>{
+        el.style.opacity = round * 0.01;
+        round++;
+        if(round > 100){
+          clearInterval(this.enterInterval)
+          done();
+        }
+      },20)
     },
     afterEnter(el) {
       console.log('after enter');
@@ -75,15 +88,29 @@ export default {
     },
     beforeLeave(el) {
       console.log('before leave');
-      console.log(el);
+      el.style.opacity = 1;
     },
-    leave(el){
+    leave(el, done){
       console.log('leave');
-      console.log(el);
+      let round = 1;
+       this.leaveInterval = setInterval(()=>{
+        el.style.opacity = 1 - round * 0.01;
+        round++;
+        if(round > 100){
+          clearInterval(this.leaveInterval)
+          done();
+        }
+      },20)
     }, 
     afterLeave(el) {
       console.log('after leave');
       console.log(el);
+    },
+    enterCancelled(){
+      clearInterval(this.enterInterval);
+    },
+    leaveCancelled(){
+      clearInterval(this.leaveInterval);
     }
   },
 };
@@ -135,10 +162,10 @@ button:active {
   opacity: 0;
   transform: translateY(-50px);
 } */
-.para-enter-active {
-  /* transition: all 0.3s ease-out; */
+/* .para-enter-active {
+   transition: all 0.3s ease-out; 
   animation: slide-fade 0.3s ease-out;
-}
+} */
 /* .v_enter-to{
   opacity: 1;
   transform: translateY(0px)
@@ -148,10 +175,10 @@ button:active {
   opacity: 1;
   transform: translateY(0px);
 } */
-.para-leave-active {
-  /* transition: all 0.3s ease-out; */
+/* .para-leave-active {
+   transition: all 0.3s ease-out; 
   animation: slide-fade 0.3s ease-out;
-}
+} */
 /* .v-leave-to{
   opacity: 0;
   transform: translateY(-50px);
